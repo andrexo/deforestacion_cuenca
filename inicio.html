@@ -1,0 +1,123 @@
+<?php
+	  session_start();
+		
+	  if(isset($_GET['op'])=='salir')
+	  {
+		if(isset($_SESSION["rol"])){ session_unset(); session_destroy(); }
+	  }else
+	  {
+		  if(isset($_SESSION["rol"])){ header('Location: mapa.php?logueado=si');  }
+	  }
+?>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script src="librerias/jquery/jquery-1.12.3.min.js"></script>
+        <script type="text/javascript">
+	
+	
+	$( document ).ready(function() 
+	{
+        
+		$("#boton1").click(function()
+		{
+			$.post("php/login.php",
+			{
+				peticion: 'valida-login',
+				parametros: {  login: $("#caja_usuario").val() ,  password: $("#caja_password").val()  },
+			},
+			function(data, status){
+				console.log("Datos recibidos:" + data + "\nStatus: " + status);
+				console.log("sql");
+				if(status=='success')
+				{ ;
+					if(data=='ENTRAR')
+					{
+						document.location.href ='admin.html?logueado=si';	
+					}else
+					{
+						$("#caja_respuesta").html( '<br><b>USUARIO O PASSWORD ERROR !!</b>' );
+					}
+				}
+			});
+		});
+		
+		
+    });
+	
+	</script>
+   </head>
+   <style>
+      body{
+	    margin: 0;
+		padding: 0; 
+		text-align: center;
+        background-image: url(img/fo.jpg);
+        background-size:cover;
+        background-repeat: no-repeat;
+        background-attachment:fixed;		
+      }
+	  
+	  h1{
+	  
+	  }
+
+      a{
+       color: #06F030;
+       text-decoration: none; /*para que no muestre líneas en los titulos*/
+       text-transform: uppercase; /*para poner en mayuscula*/
+       font-size: 15px; 
+	   font-weight: bold; /*en negrilla*/
+      }
+	  
+	  input[type= "text"], input[type= "password"]{
+	   outline: none;
+	   padding: 10px;
+	   display: block; 
+	   width: 300px;
+	   border-radius: 3px;
+	   border: 1px solid #ccc;
+	   margin: 20px auto;
+	  }
+	  
+	 input[type= "submit"] {
+	  padding: 10px; 
+	  color: #fff;
+	  background: #06F030;
+	  width: 300px;
+	  margin: 20px auto;
+      margin-top: 0;
+      border: 0;
+      border-radius: 3px;
+      cursor: pointer;	  
+	 }
+	 
+	 input[type= "submit"]: hover {
+	 background-color: #0cb22a;
+	 }
+	 
+	 
+  </style>
+<body>
+
+
+		<!--  formulario HTML con cajas de ingreo usuario y password -->
+		
+
+Correo: <input type="text" id="caja_usuario" value=""> </input><br>
+Contraseña: <input type="password" id="caja_password" value=""></input><br><br>
+
+<button id="boton1" >Ingresar</button>
+
+
+<div id="caja_respuesta"> </div>
+
+
+
+
+  
+</body>
+</html>   
+  
+  

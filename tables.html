@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>8.4Leaflet</title>
+    <link rel="stylesheet" href="lib/leaflet/leaflet.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+      integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+      crossorigin="anonymous">
+    <script src="lib/leaflet/leaflet.js"></script>
+    <link rel="stylesheet" href="lib/leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.css">
+    <script src="lib/leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.js"></script>
+    <!--  Nuevas librerÃ­as para el manejo de formulario   -->
+    <!-- https://getbootstrap.com/docs/4.1/getting-started/introduction/ -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+crossorigin="anonymous"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>geoportal</title>
+    <!-- Bootstrap core CSS-->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom fonts for this template-->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- Page level plugin CSS-->
+    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin.css" rel="stylesheet">
+	
+  </head>
+  <body class="fixed-nav sticky-footer bg-dark" id="page-top">
+    <!-- Navigation-->
+   <header>
+	    <div class= "contenedor">
+		  <div id= "marca">
+		    <h1><span class="resaltado">SIG</span> DEFORESTACIÓN</h1>
+		  </div>
+		  <nav> 
+		  
+		      <ul> 
+			     <li class= "actual"><a href="index.html">inicio</a></li> 
+		         <li><a href="info.html">Información</a></li>			    
+				 <li><a href="tables.html">Geoportal</a></li>
+				 <li><a href="inicio.html">Administradores</a></li>
+			  <ul>
+		 </nav>
+		</div>		
+	</header>  	
+	
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav navbar-sidenav" id="exampleAccordion" style="top: 0px; height: 0px;">
+          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+ </li>
+			
+        <!--  *******************   consultas. **********************-->	
+		
+
+
+				
+
+
+
+        </ul>
+        
+
+
+        <ul class="navbar-nav ml-auto">
+        </ul>
+      </div>
+    </nav>
+    <div class="content-wrapper">
+      <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"> <br>
+          </li>
+          <li class="breadcrumb-item active">Geoportal Para Usuarios</li>
+        </ol>
+        <!-- Example DataTables Card-->
+        <div id="mapid" style="width: 990px; height: 440px;"> </div>
+        <br>
+       <!--  *******************   registro. **********************-->
+        <div class="modal fade" id="formularioregistro" tabindex="-1" role="dialog"
+
+          aria-labelledby="exampleModalLabel" aria-hidden="true" >
+          <div class="modal-content " role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="registro">
+                  <p id="tituloregistro"></p>
+                </h5>
+                <button type="button" id="cerrar" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span> </button> </div>
+              <div class="modal-body">
+                <form>
+                  <div class="form-group"> <label for="input_nom">Nombre:</label>
+                    <input class="form-control" id="input_nombre" placeholder=""
+
+                      type="text"> </div>
+                  <div class="form-group"> <label for="input_cedula">Cedula:</label>
+                    <input class="form-control" id="input_cedula" placeholder="" type="number"> 
+					</div>
+                  <div class="form-group"> <label for="input_edad">Edad:</label>
+                    <input class="form-control" id="input_edad" placeholder="" type="number">
+                  </div>
+                  <div class="form-group"> <label for="input_sexo">Sexo</label>
+                    <select class="form-control" id="input_sexo">
+                      <option value="masculino">Masculino</option>
+                      <option value="femenino">Femenino</option>
+                    </select>
+                  </div>
+                  <div class="form-group"> <label for="input_ocupacion">Ocupación</label>
+                    <select class="form-control" id="input_ocupacion">
+                      <option value="ama_de_casa">Ama de casa</option>
+                      <option value="comerciante">Comerciante</option>
+                      <option value="desempleado">Desempleado</option>
+                      <option value="empleado_particular">Empleado particular </option>
+                      <option value="empleado_policial">Empleado policial</option>
+                      <option value="empleado_salud">Empleado salud</option>
+                      <option value="estudiante">Estudiante</option>					  
+                      <option value="indendientes">Independientes</option>
+                      <option value="pensionados">Pensionados</option>
+                    </select>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer"> 
+				<button type="button" class="btn btn-primary"
+
+                  id="enviarform2">Enviar</button> </div>
+            </div>
+          </div>
+        </div>
+         
+		<!--  *******************   Capturar coord. **********************--> 
+		
+		<button
+          id="botonformulario" type="button" class="btn btn-primary">
+          hacer denuncia de deforestación</button> 
+        <div class="modal fade" id="formulariomodal" tabindex="-1" role="dialog"
+          aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  <p id="titulomodal"></p>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span> </button> </div>
+              <div class="modal-body">
+                <form>
+                  <div class="form-group"> <label for="input_lat">Latitud:</label>
+                    <input name="lat" class="form-control" id="input_lat" aria-describedby="emailHelp"
+                      placeholder="" type="text"> </div>
+                  <div class="form-group"> <label for="input_long">Longitud:</label>
+                    <input name="lon" class="form-control" id="input_lon" placeholder=""
+                      type="text"> </div>
+                  <div class="form-group"> <label for="input_fecha">Fecha:</label>
+                    <input name="fecha" class="form-control" id="input_fecha" placeholder=""
+                      type="date"> </div>
+                  <div class="form-group"> <label for="input_hora">Hora:</label>
+                    <input name="hora" class="form-control" id="input_hora" placeholder=""
+                      type="text"> </div>
+					  
+                  <div class="form-group"> <label for="input_zona">Zona</label>
+                    <select name="zona" class="form-control" id="input_zona">
+                      <option value="urbana">Urbana</option>
+                      <option value="rural">Rural</option>
+                    </select>
+                  </div>                                 
+                  <div class="form-group"> <label for="input_descripcion">Descripcion:</label>
+                    <input name="descripcion" class="form-control" id="input_descripcion"
+                      placeholder="" type="text"> </div>
+                  <div class="form-group"> <label for="input_foto">Foto</label>
+                    <input class="form-control-file" id="input_foto" accept="image/*"
+                      type="file"> </div>
+                </form>
+              </div>
+              <div class="modal-footer"> <button type="button" class="btn btn-secondary"
+                  data-dismiss="modal">Close</button> <button type="button" class="btn btn-primary"
+                  id="enviarform">Enviar Formulario</button> </div>
+            </div>
+          </div>
+        </div>
+ 
+                  <!--  *******************   buffer **********************--> 
+				  
+		<button
+
+          id="botonformulario3" type="button" class="btn btn-primary"> Crear un Buffer alrededor de un punto</button> 
+		  
+		  
+        <div class="modal fade" id="formulariomodal3" tabindex="-1" role="dialog"
+
+          aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  <p id="titulomodal3"></p>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span> </button> </div>
+              <div class="modal-body">
+                <form>
+                  <div class="form-group"> <label for="input_lat3">Latitud:</label>
+                    <input name="lat" class="form-control" id="input_lat3" aria-describedby="emailHelp"
+
+                      placeholder="" type="text"> </div>
+                  <div class="form-group"> <label for="input_long3">Longitud:</label>
+                    <input name="lon" class="form-control" id="input_lon3" placeholder=""
+
+                      type="text"> </div>
+
+                  <div class="form-group"> <label for="input_hora3">Buffer:</label>
+                    <input name="hora" class="form-control" id="input_buffer3" placeholder=""
+
+                      type="text"> </div>
+					                                   
+                </form>
+              </div>
+              <div class="modal-footer"> <button type="button" class="btn btn-secondary"
+
+                  data-dismiss="modal">Close</button> <button type="button" class="btn btn-primary"
+
+                  id="enviarform3">Enviar Formulario</button> </div>
+            </div>
+          </div>
+        </div>
+                  <!--  *******************   deforestación según el departamento **********************-->
+
+<button id="botonformulario4" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever=""> Deforestación según el departamento</button>
+
+					
+                  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Seleccione el Municipio y el año de deforestacion</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+                  <div  class="form-group"> <label for="input_municipio">Municipio</label>
+                    <select  class="form-control" id="input_municipio">
+                      <option value="CALI">Cali</option>
+                      <option value="JAMUNDÍ">Jamundí</option>
+                      <option value="CANDELARIA">Candelaria</option>
+                      <option value="MIRANDA">Miranda </option>
+                      <option value="TORIBÍO">Toribío</option>
+                      <option value="PADILLA">Padilla</option>
+                      <option value="VILLA RICA">Villa rica</option>					  
+                      <option value="PUERTO TEJADA">Puerto Tejada</option>
+                      <option value="CALOTO">Caloto</option>
+					  <option value="CORINTO">Corinto</option>
+					  <option value="GUACHENÉ">Guachené</option>
+					  <option value="JAMBALÓ">Jambaló</option>
+					  <option value="PUERTO TEJADA">Puerto Tejada</option>
+					  <option value="VILLA RICA">Villa rica</option>
+					  <option value="PUERTO TEJADA">Puerto Tejada</option>
+					  <option value="MIRANDA">Miranda</option>
+                    </select>
+                  </div>
+                  <div name="ano" class="form-group"> <label for="input_ano">Año</label>
+                    <select class="form-control" id="input_ano">
+                      <option value="d1">2016</option>
+                      <option value="d2">2017</option>
+
+                    </select>
+                  </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button id="calcular" type="button" class="btn btn-primary">Calcular</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  <script> 
+$("#botonformulario4").on("click",function(){
+	
+	
+	
+	mymap.once('click', onMapClick3);
+	})
+	
+	$('#calcular').on('click', function(){
+
+	
+			
+
+			var municipio = $("#input_municipio").val();
+			var ano = $("#input_ano").val();						
+
+			$.ajax({
+				url:"amunicipio.php",
+				type: "post",
+				
+				data:{municipio:municipio,ano:ano},
+				success: function(data) {
+					
+					console.log(data);
+					window.alert('El área de deforestación para_'+municipio +'_es de_'+data+'Metros cuadrados');
+					window.close(true);
+			
+
+
+
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					console.log(textStatus,errorThrown);
+				}
+			})
+
+		
+
+
+
+});
+
+
+				  
+
+$(document).ready(function(){
+  $("#enviarform2").click(function(){
+    $('.modal-backdrop').remove()
+	$('#formularioregistro').remove();
+  });
+});
+
+
+
+
+				  
+	var basemaps = 
+	{
+		Grayscale: L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', 
+		{
+			maxZoom: 18,
+			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+		}),
+		
+		Streets: L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
+		{
+			maxZoom: 19,
+			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+		})
+	};
+
+var mymap = L.map('mapid').setView([ 3.078736 , -76.290881 ], 10);
+
+		var wmsLayer1 = L.tileLayer.wms('http://localhost:8080/geoserver/SIG3/wms?', {
+		layers: 'SIG3:proy',
+		attribution: 'Municipios Valle',
+		format: 'image/png',
+		transparent: true
+		});
+		
+		var wmsLayer2 = L.tileLayer.wms('http://localhost:8080/geoserver/SIG3/wms?', {
+		layers: 'SIG3:deforestacion_15_16',
+		attribution: 'deforestacion1',
+		format: 'image/png',
+		transparent: true
+		});
+
+		var wmsLayer3 = L.tileLayer.wms('http://localhost:8080/geoserver/SIG3/wms?', {
+		layers: 'SIG3:deforestacion_16_17',
+		attribution: 'deforestacion2',
+		format: 'image/png',
+		transparent: true 
+		});
+
+		var wmsLayer4 = L.tileLayer.wms('http://localhost:8080/geoserver/SIG3/wms?', {
+		layers: 'SIG3:vias_palo',
+		attribution: 'vias',
+		format: 'image/png',
+		transparent: true
+		});
+
+		var wmsLayer5 = L.tileLayer.wms('http://localhost:8080/geoserver/SIG3/wms?', {
+		layers: 'SIG3:hidro_palo',
+		attribution: 'rios',
+		format: 'image/png',
+		transparent: true
+		});
+
+		var wmsLayer6 = L.tileLayer.wms('http://localhost:8080/geoserver/SIG3/wms?', {
+		layers: 'SIG3:denuncia',
+		attribution: 'denuncia',
+		format: 'image/png',
+		transparent: true
+		});
+
+
+		basemaps.Grayscale.addTo(mymap);
+		wmsLayer1.addTo(mymap);
+		wmsLayer3.addTo(mymap);
+        wmsLayer4.addTo(mymap);
+        wmsLayer5.addTo(mymap);
+
+
+     
+		
+	var groupedOverlays = {
+	  "Capas Municipio": {
+	  }
+	  ,
+	  "Capas propias": {
+		"Área Subcuenca Río Palo": wmsLayer1,
+		"Área de Deforestación": wmsLayer2,
+		"Área de Deforestación 2": wmsLayer3,
+        "Vías":wmsLayer4,
+        "Fuentes Hidricas":wmsLayer5,
+
+		
+	  }
+	};
+
+	L.control.groupedLayers(basemaps, groupedOverlays).addTo(mymap);
+
+		var popup = L.popup();
+
+	function onMapClick(e) {
+	
+		var lat =e.latlng.lat.toFixed(5);
+		var lon =e.latlng.lng.toFixed(5);
+	
+		$('#formulariomodal').modal();
+		
+		
+		$("#titulomodal").text("Formulario para denunciar una posible punto de deforestación");
+		
+		$("#input_lat").val(lat);
+		$("#input_lat").prop('disabled', true);
+		
+		$("#input_lon").val(lon);
+		$("#input_lon").prop('disabled', true);
+		
+		var now = new Date();
+		var day = ("0" + now.getDate()).slice(-2);
+		var month = ("0" + (now.getMonth() + 1)).slice(-2);
+		var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+	   $('#input_fecha').val(today);
+	 	
+	}
+	
+  $("#botonregistro").on("click", onRegistroClick())
+    var nombre = $("#input_nombre").val();
+		var cedula = $("#input_cedula").val();
+		var edad = $("#input_edad").val();
+		var sexo = $("#input_sexo").val();
+		var ocupacion = $("#input_ocupacion").val();
+                  
+  
+  
+  $("#botonformulario").on("click",function(){
+	
+	mymap.once('click', onMapClick);
+	})
+          
+	function onRegistroClick(e) {
+	
+		$("#formularioregistro").modal();
+		
+		$("#registro").text("Datos de Usuario");
+		
+		var now = new Date();
+		var day = ("0" + now.getDate()).slice(-2);
+		var month = ("0" + (now.getMonth() + 1)).slice(-2);
+		var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+	   $('#input_fecha').val(today);
+	}
+                                   
+								   
+								   
+								   
+//al dar click en enviar formulario de capturar coordenadas de denuncias 
+
+							   
+$("#enviarform").on("click",function(){	
+		var lat = $("#input_lat").val();
+		var lon = $("#input_lon").val();
+		var fecha = $("#input_fecha").val();
+		var hora = $("#input_hora").val();
+		var zona = $("#input_zona").val();
+		var descripcion = $("#input_descripcion").val();
+		
+		function getBase64(file) {
+		   var reader = new FileReader();
+		   reader.readAsDataURL(file);
+		   reader.onload = function () {
+			 var base64 = reader.result;
+			 lecturadatos(base64);			 
+		   };
+		   reader.onerror = function (error) {
+			 console.log('Error: ', error);
+		   };
+		}
+
+ var file = document.getElementById('input_foto').files[0];
+ 
+ if(file){
+	 getBase64(file);
+	 }else{
+	 lecturadatos('Sin Foto')
+ }
+
+		function lecturadatos(img){
+			var datos= {
+
+			lat :lat,
+			lon :lon,
+			fecha :fecha,
+			hora :hora,
+			zona :zona,
+			descripcion:descripcion,
+			foto:img
+		};
+			
+ $.ajax({
+ url: "php/agregar.php",
+ type: "post",
+ data: datos,
+ success: function (response) {
+  console.log(response);
+  
+  
+	},
+error: function(jqXHR, textStatus, errorThrown) {
+console.log(textStatus, errorThrown);
+				}
+			});
+		}	
+	})
+	
+	
+	
+	
+	
+	
+//al dar click en enviar de datos de usuario
+  
+$("#enviarform2").on("click",function(){
+		
+        var nombre = $("#input_nombre").val();
+		var cedula = $("#input_cedula").val();
+		var edad = $("#input_edad").val();
+		var sexo = $("#input_sexo").val();
+		var ocupacion = $("#input_ocupacion").val();
+		
+
+
+ var file = document.getElementById('input_foto').files[0];
+ 
+ if(file){
+	 getBase64(file);
+	 }else{
+	 lecturadatos('Sin Foto')
+ }
+
+		function lecturadatos(img){
+			var datos= {
+
+			nombre :nombre,
+			cedula :cedula,
+			edad :edad,
+			sexo :sexo,
+			ocupacion :ocupacion,
+
+		};
+			
+ $.ajax({
+ url: "php/registro.php",
+ type: "post",
+ data: datos,
+ success: function (response) {
+  console.log(response);
+  window.alert("registro exitoso");
+  window.close(true);
+	
+
+	},
+error: function(jqXHR, textStatus, errorThrown) {
+console.log(textStatus, errorThrown);
+				}
+			});
+		}	
+	})  
+  
+  
+  
+  
+  
+  
+  
+  
+//Al dar click en botón bufeer en Area total deforestada alrededor de un punto
+
+	function onMapClick3(e) {
+	
+		var lat =e.latlng.lat.toFixed(5);
+		var lon =e.latlng.lng.toFixed(5);
+	
+		$('#formulariomodal3').modal();
+		
+		$("#titulomodal3").text("Selecciona los metros a redonda para detectar la deforestación");
+		
+		$("#input_lat3").val(lat);
+		$("#input_lat3").prop('disabled', true);
+		
+		$("#input_lon3").val(lon);
+		$("#input_lon3").prop('disabled', true);
+		
+		var now = new Date();
+		var day = ("0" + now.getDate()).slice(-2);
+		var month = ("0" + (now.getMonth() + 1)).slice(-2);
+		var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+	   $('#input_fecha').val(today);
+	 	
+	}
+	
+
+
+	$("#botonformulario3").on("click",function(){
+	
+	
+	
+	mymap.once('click', onMapClick3);
+	})
+	
+	$('#enviarform3').on('click', function(){
+
+		mymap.once('click', function(e){
+			
+
+			var buffer = $("#input_buffer3").val();
+			var lat =e.latlng.lat.toFixed(5);
+			var lon =e.latlng.lng.toFixed(5);
+			
+
+
+			$.ajax({
+				url:"buffer.php",
+				type: "post",
+				dataType: 'JSON',
+				data:{x:lon,y:lat,buffer:buffer},
+				success: function(data) {
+
+					console.log(data);
+					var buffer = new L.geoJson(data);
+				    buffer.addTo(mymap);
+					
+
+					
+					/*$("#con_lotes").html(data);
+
+						geojsonLayer = L.geoJson(data).addTo(mymap);*/
+
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					console.log(textStatus,errorThrown);
+				}
+			})
+
+		});
+
+
+
+});
+	
+	
+	
+	
+$("#botonbuffer").on("click",function(){
+	
+	mymap.once('click', onMapClickBuffer);
+	})
+	
+	
+	
+		function onMapClickBuffer(e) { 
+
+		var lat =e.latlng.lat.toFixed(5); 
+		var lon =e.latlng.lng.toFixed(5);
+		$("#titulomodal_buffer").text("Punto de selcción ("+lat+","+lon+")");
+		$("#input_buffer_lat").val(lat);		
+		$("#input_buffer_log").val(lon);
+	
+		$('#modalbuffer').modal();// ventana donde se llena los datos a mostrar
+		
+		}	
+	 
+
+	
+	
+
+
+
+	
+	
+
+//al dar ckick en hurtos en zona cercana 
+
+
+  $("#botonhurt").on("click",function(){
+	
+		mymap.once('click', onMapClickdist);//se ejecute el evento con el click
+		
+	})
+	
+		
+	
+		function onMapClickdist(e) { //se crea la funcion para el precio
+	
+		var lat =e.latlng.lat.toFixed(5); //.latlng.lat.toFixed(5) :traer las coordenadas del mapa , lo brinda la libreia leaflet/leaflet
+		var lon =e.latlng.lng.toFixed(5);
+		$("#titulomodal_hurt").text("Formulario para ("+lat+","+lon+")");
+		$("#input_dist_lat").val(lat);
+		$("#input_dist_log").val(lon);
+	
+		$('#modalhurt').modal();// ventana donde se llena los datos a mostrar
+		
+		}
+		
+
+			
+	$("#enviarhurt").on("click",function(){ //envia los datos ingresados a la base de datos
+	
+		var lat = $("#input_dist_lat").val();
+		var lng = $("#input_dist_log").val();
+		var hurt = $("#input_hurt").val();
+		
+
+
+		 $.ajax({
+				url: "php/hurto.php",
+				type: "post",
+				data: {latitud:lat,	longitud:lng, hurtos:hurt},
+				success: function (response) {
+				   console.log(response);   
+				  hurt_layer.clearLayers(); 
+				   hurt_layer.addData(response); 
+
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+				   console.log(textStatus, errorThrown);
+				}
+
+
+			});
+			
+			
+	
+	});
+   
+
+</script> </center></center>
+            </center>
+          </center>
+        </center>
+      </div>
+      <!-- /.container-fluid-->
+      <!-- /.content-wrapper-->
+      <footer class="sticky-footer">
+        <div class="container">
+          <div class="text-center"> <small>Copyright © SIG DEFORESTACIÓN 2019</small>
+          </div>
+        </div>
+      </footer>
+      <!-- Scroll to Top Button--> <a class="scroll-to-top rounded" href="#page-top">
+      </a> </div>
+  </body>
+</html>
